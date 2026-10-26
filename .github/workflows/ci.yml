@@ -18,11 +18,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show current directory
-        run: pwd
+      - name: Download Python
+        run: actions/setup-python@v5
 
-      - name: Show repository files
-        run: ls -la
+      - name: Download requirements 
+        run: pip install -r requirements.txt
 
-      - name: Print message
-        run: echo "CI pipeline started"
+      - name: Check linters
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run Tests
+        run: pytest 
